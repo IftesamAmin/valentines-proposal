@@ -81,7 +81,7 @@ function App() {
             <div className="modal-image-wrapper">
               {/* Replace the src below with your own image path */}
               <img
-                src="./public/sleepy.jpeg"
+                src="/sleepy.jpeg"
                 alt="A special moment together"
                 className="modal-image"
               />
