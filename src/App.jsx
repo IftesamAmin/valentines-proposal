@@ -1,9 +1,20 @@
 import { useState } from 'react'
+import confetti from 'canvas-confetti'
 import './App.css'
 
 function App() {
   const [isNoHovered, setIsNoHovered] = useState(false)
   const [isModalOpen, setIsModalOpen] = useState(false)
+
+  const handleYesClick = () => {
+    setIsModalOpen(true)
+    confetti({
+      particleCount: 150,
+      spread: 70,
+      origin: { y: 0.6 },
+      colors: ['#ff9a9e', '#f6416c', '#ffdde1', '#ee9ca7']
+    })
+  }
 
   return (
     <div className="valentine-page">
@@ -24,7 +35,7 @@ function App() {
         <div className="buttons-row">
           <button
             className="btn yes-btn"
-            onClick={() => setIsModalOpen(true)}
+            onClick={handleYesClick}
           >
             Yes
           </button>
@@ -34,22 +45,22 @@ function App() {
               setIsNoHovered(true)
 
               const btn = e.currentTarget
-              const container = btn.closest('.proposal-card')
-              if (!container) return
-
-              const rect = container.getBoundingClientRect()
               const btnRect = btn.getBoundingClientRect()
 
               const padding = 20
-              const maxX = rect.width - btnRect.width - padding
-              const maxY = rect.height - btnRect.height - padding
+              // Use viewport dimensions to ensure it stays on screen
+              const maxX = window.innerWidth - btnRect.width - padding
+              const maxY = window.innerHeight - btnRect.height - padding
 
-              const randomX = Math.random() * maxX
-              const randomY = Math.random() * maxY
+              const randomX = Math.max(padding, Math.random() * maxX)
+              const randomY = Math.max(padding, Math.random() * maxY)
 
-              btn.style.position = 'absolute'
+              // Apply styles to move the button anywhere on the screen
+              btn.style.position = 'fixed'
               btn.style.left = `${randomX}px`
               btn.style.top = `${randomY}px`
+              btn.style.zIndex = '1000'
+              btn.style.margin = '0'
             }}
             onMouseLeave={() => setIsNoHovered(false)}
             onClick={(e) => {
